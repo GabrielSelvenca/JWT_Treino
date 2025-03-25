@@ -1,0 +1,6 @@
+@JwtBearer_Treino_HostAddress = http://localhost:5160
+
+GET {{JwtBearer_Treino_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
