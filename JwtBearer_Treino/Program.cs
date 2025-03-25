@@ -1,5 +1,6 @@
 using System.Text;
 using JwtBearer_Treino;
+using JwtBearer_Treino.Contexts;
 using JwtBearer_Treino.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -9,11 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddTransient<TokenService>();
+builder.Services.AddScoped<TokenService>();
+builder.Services.AddDbContext<MainContext>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -26,9 +26,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
             ValidIssuer = "xchallange-api",
             ValidAudience = "xchallange-web",
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.PrivateKey))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]))
         };
     });
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowCors", policy =>
+    {
+        policy.WithOrigins("http://localhost:5160", "http://172.16.44.86:5160")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowAnyOrigin();
+    });
+});
 
 var app = builder.Build();
 
@@ -39,6 +50,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseRouting();
+app.UseCors("AllowCors");
 app.UseAuthentication();
 app.UseAuthorization();
 

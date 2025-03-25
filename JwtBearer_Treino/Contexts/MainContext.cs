@@ -27,8 +27,7 @@ public partial class MainContext : DbContext
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=localhost;Database=XChallenge_Treino;Trusted_Connection=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=XChallenge_Treino;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -86,7 +85,7 @@ public partial class MainContext : DbContext
 
             entity.HasIndex(e => e.Email, "UQ__Usuarios__A9D10534B5347B40").IsUnique();
 
-            entity.Property(e => e.CriadoEm).HasColumnType("datetime");
+            entity.Property(e => e.HoraLogin).HasColumnType("datetime");
             entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.Nome).HasMaxLength(100);
             entity.Property(e => e.SenhaHash).HasMaxLength(255);

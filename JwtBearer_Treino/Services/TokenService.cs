@@ -9,19 +9,26 @@ namespace JwtBearer_Treino.Services
 {
     public class TokenService
     {
-        public string Generate(Usuario usuario)
+        private readonly string _secretKey;
+
+        public TokenService(IConfiguration configuration)
+        {
+            _secretKey = configuration["JwtSettings:SecretKey"];
+        }
+
+        public string TokenGenerate(Usuario user)
         {
             // Cria uma instância do JwtSecurityTokenHandler
             var handler = new JwtSecurityTokenHandler();
 
-            var key = Encoding.UTF8.GetBytes(Configuration.PrivateKey);
+            var key = Encoding.UTF8.GetBytes(_secretKey);
             var credentials = new SigningCredentials(
                 new SymmetricSecurityKey(key), 
                 SecurityAlgorithms.HmacSha256);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = GenerateClaims(usuario),
+                Subject = GenerateClaims(user),
                 SigningCredentials = credentials,
                 Expires = DateTime.UtcNow.AddHours(1),
             };

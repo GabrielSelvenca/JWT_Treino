@@ -13,9 +13,7 @@ public partial class Usuario
 
     public string? SenhaHash { get; set; }
 
-    public byte[]? FotoPerfil { get; set; }
-
-    public DateTime? CriadoEm { get; set; }
+    public DateTime? HoraLogin { get; set; }
 
     public virtual ICollection<Participante> Participantes { get; set; } = new List<Participante>();
 }
