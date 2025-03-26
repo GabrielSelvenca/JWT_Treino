@@ -13,7 +13,7 @@ namespace JwtBearer_Treino.Services
 
         public TokenService(IConfiguration configuration)
         {
-            _secretKey = configuration["JwtSettings:SecretKey"];
+            _secretKey = configuration["JwtSettings:SecretKey"] ?? throw new ArgumentNullException("JwtSettings:SecretKey", "Chave JWT não configurada!");
         }
 
         public string TokenGenerate(Usuario user)
@@ -39,7 +39,7 @@ namespace JwtBearer_Treino.Services
             // Gera uma string do token
             var strToken = handler.WriteToken(token);
 
-            return handler.WriteToken(token);
+            return strToken;
         }
 
         private static ClaimsIdentity GenerateClaims(Usuario usuario)
@@ -47,8 +47,8 @@ namespace JwtBearer_Treino.Services
             var ci = new ClaimsIdentity();
 
             ci.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()));
-            ci.AddClaim(new Claim(ClaimTypes.Name, usuario.Nome));
-            ci.AddClaim(new Claim(ClaimTypes.Email, usuario.Email));
+            ci.AddClaim(new Claim(ClaimTypes.Name, usuario.Nome ?? "null"));
+            ci.AddClaim(new Claim(ClaimTypes.Email, usuario.Email ?? "null"));
 
             return ci;
         }

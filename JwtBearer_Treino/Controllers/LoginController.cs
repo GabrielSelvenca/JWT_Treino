@@ -1,12 +1,11 @@
 ﻿using JwtBearer_Treino.Contexts;
-using JwtBearer_Treino.Models.ViewModels;
 using JwtBearer_Treino.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace JwtBearer_Treino.Controllers
 {
-    public class LoginModel()
+    public class LoginModel
     {
         [Required(ErrorMessage = "Email é obrigatório")]
         [EmailAddress(ErrorMessage = "Campo email não é email")]
@@ -14,6 +13,12 @@ namespace JwtBearer_Treino.Controllers
 
         [Required(ErrorMessage = "Senha é obrigatório")]
         public string Senha {  get; set; }
+
+        public LoginModel(string email, string senha)
+        {
+            Email = email;
+            Senha = senha;
+        }
     }
 
     [Route("api/login")]
@@ -54,11 +59,11 @@ namespace JwtBearer_Treino.Controllers
                 return Ok(new
                 {
                     Token = token,
-                    usuario = new UsuarioViewModel
+                    usuario = new
                     {
-                        Id = user.Id,
-                        Nome = user.Nome,
-                        Email = user.Email,
+                        user.Id,
+                        user.Nome,
+                        user.Email,
                     },
                     horarioAcesso = DateTime.UtcNow.ToString("dd/MM/yyyy - HH:mm")
                 });

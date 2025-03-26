@@ -31,8 +31,8 @@ namespace JwtBearer_Treino.Controllers
             var usuariosModel = userList.Select(u => new UsuarioModel
             {
                 Id = u.Id.ToString(),
-                Nome = u.Nome,
-                Email = u.Email
+                Nome = u.Nome ?? "null",
+                Email = u.Email ?? "null"
             }).ToList();
 
             return Ok(usuariosModel);
