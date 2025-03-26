@@ -6,6 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JwtBearer_Treino.Controllers
 {
+    public class UpdateModel()
+    {
+        public string Nome { get; set; }
+        public string Email { get; set; }
+        public string Senha { get; set; }
+    }
+
     [Route("api/usuarios/update/{id}")]
     [Produces("application/json")]
     [ApiController]
@@ -17,7 +24,7 @@ namespace JwtBearer_Treino.Controllers
         public UpdateUserController(MainContext ctx) { _ctx = ctx; }
 
         [HttpPut]
-        public IActionResult UpdateUser(int Id, [FromBody] Usuario user)
+        public IActionResult UpdateUser(int Id, [FromBody] UpdateModel user)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -34,7 +41,7 @@ namespace JwtBearer_Treino.Controllers
 
             usuarioValido.Nome = user.Nome;
             usuarioValido.Email = user.Email;
-            usuarioValido.SenhaHash = user.SenhaHash;
+            usuarioValido.Senha = user.Senha;
 
             _ctx.SaveChanges();
 

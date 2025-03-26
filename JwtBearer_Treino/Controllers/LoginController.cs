@@ -47,7 +47,7 @@ namespace JwtBearer_Treino.Controllers
                     return Unauthorized("Email ou senha inválidos");
                 }
 
-                bool senhaValida = user.SenhaHash == login.Senha;
+                bool senhaValida = user.Senha == login.Senha;
 
                 if (!senhaValida)
                 {

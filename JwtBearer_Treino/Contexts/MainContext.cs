@@ -88,7 +88,7 @@ public partial class MainContext : DbContext
             entity.Property(e => e.HoraLogin).HasColumnType("datetime");
             entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.Nome).HasMaxLength(100);
-            entity.Property(e => e.SenhaHash).HasMaxLength(255);
+            entity.Property(e => e.Senha).HasMaxLength(255);
         });
 
         OnModelCreatingPartial(modelBuilder);

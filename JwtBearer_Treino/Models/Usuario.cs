@@ -11,7 +11,7 @@ public partial class Usuario
 
     public string? Email { get; set; }
 
-    public string? SenhaHash { get; set; }
+    public string? Senha { get; set; }
 
     public DateTime? HoraLogin { get; set; }
 
